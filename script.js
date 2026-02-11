@@ -1,29 +1,27 @@
-// income aur expense ki simple categories
-// yeh object batata hai ke income aur expense mein kaun kaun si categories hongi
 const categories = {
     income: [
-        { value: "business", text: "Business" },       // business se aane wali income
-        { value: "investments", text: "Investments" }, // investments se hone wali income
-        { value: "extra", text: "Extra Income" },      // extra ya side income
-        { value: "deposits", text: "Deposit" },        // deposit ki hui amount
-        { value: "lottery", text: "Lottery" },         // lottery se milne wali amount
-        { value: "gifts", text: "Gifts" },             // gifts ki form mein income
-        { value: "salary", text: "Salary" },           // monthly salary
-        { value: "savings", text: "Savings" },         // savings se nikali hui amount
-        { value: "rental", text: "Rental Income" },    // rent se aane wali income
+        { value: "business", text: "Business" },
+        { value: "investments", text: "Investments" },
+        { value: "extra", text: "Extra Income" },
+        { value: "deposits", text: "Deposit" },
+        { value: "lottery", text: "Lottery" },
+        { value: "gifts", text: "Gifts" },
+        { value: "salary", text: "Salary" },
+        { value: "savings", text: "Savings" },
+        { value: "rental", text: "Rental Income" },
     ],
     expense: [
-        { value: "bill", text: "Bills" },               // bijli, gas waghera ke bills
-        { value: "car", text: "Car" },                  // car ke kharchay
-        { value: "cloth", text: "Clothes" },            // kapron ke kharchay
-        { value: "travel", text: "Travel" },            // travel ka kharcha
-        { value: "food", text: "Food" },                // khanay peenay ka kharcha
-        { value: "shopping", text: "Shopping" },        // shopping ka kharcha
-        { value: "house", text: "House" },              // ghar ke kharchay
-        { value: "entertainment", text: "Entertainment" }, // movies, outings waghera
-        { value: "phone", text: "Phone" },              // phone ya internet bill
-        { value: "pets", text: "Pets" },                // pets ke kharchay
-        { value: "other", text: "Other" },              // koi aur expense
+        { value: "bill", text: "Bills" },
+        { value: "car", text: "Car" },
+        { value: "cloth", text: "Clothes" },
+        { value: "travel", text: "Travel" },
+        { value: "food", text: "Food" },
+        { value: "shopping", text: "Shopping" },
+        { value: "house", text: "House" },
+        { value: "entertainment", text: "Entertainment" },
+        { value: "phone", text: "Phone" },
+        { value: "pets", text: "Pets" },
+        { value: "other", text: "Other" },
     ]
 };
 
