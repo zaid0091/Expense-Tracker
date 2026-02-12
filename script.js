@@ -38,7 +38,8 @@ var incomeDisplay = document.getElementById("income-amount");           // total
 var expenseDisplay = document.getElementById("total-expense-display");  // total expense show karne ke liye
 
 var incContainer = document.getElementById("income-list-container");   // income ki list dikhane ka container
-var expContainer = document.getElementById("expense-list-container");  // expense ki list dikhane ka container
+var expContainer = document.getElementById("expense-list-container");
+var tracker = document.querySelector("expense-tracker");  // expense ki list dikhane ka container
 
 // yeh array sari transactions ko store karegi
 var transactions = [];
