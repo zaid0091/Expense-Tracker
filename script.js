@@ -1,4 +1,3 @@
-
 const categories = {
     income: [
         { value: "business", text: "Business" },
@@ -26,159 +25,150 @@ const categories = {
     ]
 };
 
-// HTML elements ko get karna
-// yahan hum HTML ke elements ko JavaScript ke sath connect kar rahe hain
-var typeSelect = document.getElementById("expense-type");        // income ya expense select karne ka dropdown
-var categorySelect = document.getElementById("expense-category"); // category select karne ka dropdown
-var amountInput = document.getElementById("expense-amount");     // amount likhne ka input
-var dateInput = document.getElementById("date");                 // date select karne ka input
-var createBtn = document.getElementById("create");               // transaction add karne ka button
 
-var balanceDisplay = document.getElementById("expense-tracker-amount"); // total balance show karne ke liye
-var incomeDisplay = document.getElementById("income-amount");           // total income show karne ke liye
-var expenseDisplay = document.getElementById("total-expense-display");  // total expense show karne ke liye
+let typeSelect = document.getElementById("expense-type");
+let categorySelect = document.getElementById("expense-category");
+let amountInput = document.getElementById("expense-amount");
+let dateInput = document.getElementById("date");
+let createBtn = document.getElementById("create");
 
-var incContainer = document.getElementById("income-list-container");   // income ki list dikhane ka container
-var expContainer = document.getElementById("expense-list-container");  // expense ki list dikhane ka container
+let balanceDisplay = document.getElementById("expense-tracker-amount");
+let incomeDisplay = document.getElementById("income-amount");
+let expenseDisplay = document.getElementById("total-expense-display");
 
-// yeh array sari transactions ko store karegi
-var transactions = [];
+let incContainer = document.getElementById("income-list-container");
+let expContainer = document.getElementById("expense-list-container");
 
-// localStorage se data load karna
-// page reload hone par purani saved transactions wapas lane ke liye
+//ye array sari transactions ko store karegi
+let transactions = [];
+
+//1) localStorage se data load karna
 function loadFromLocalStorage() {
-    var data = localStorage.getItem("transactions"); // localStorage se data lena
+    let data = localStorage.getItem("transactions");
     if (data) {
-        transactions = JSON.parse(data); // string ko array/object mein convert karna
+        transactions = JSON.parse(data); //string ko array/object mein convert karna
     }
 }
 
-// localStorage mein data save karna
-// jab bhi nayi transaction add ya delete ho
+//2) localStorage mein data save karna
 function saveToLocalStorage() {
-    localStorage.setItem("transactions", JSON.stringify(transactions)); // array ko string bana kar save karna
+    localStorage.setItem("transactions", JSON.stringify(transactions)); //array ko string bana kar save karna
 }
 
-// jab user income ya expense select kare
-// uske hisaab se category dropdown change hoga
+//3) jab user income ya expense select kare, uske hisaab se category dropdown change hoga
 typeSelect.onchange = function () {
-    var selectedType = typeSelect.value; // selected type (income ya expense)
-    categorySelect.innerHTML = '<option value="">Select category</option>'; // purani categories clear karna
+    let selectedType = typeSelect.value; //selected type (income ya expense)
+    categorySelect.innerHTML = '<option value="">Select category</option>';
 
-    // agar selected type ki categories mojood na hon to kuch na karo
     if (!categories[selectedType]) {
         return;
     }
 
-    // selected type ki sari categories dropdown mein add karna
-    for (var i = 0; i < categories[selectedType].length; i++) {
-        var option = document.createElement("option"); // naya option banana
-        option.value = categories[selectedType][i].value; // option ki value set karna
-        option.innerText = categories[selectedType][i].text; // option ka text set karna
-        categorySelect.appendChild(option); // dropdown mein option add karna
+    //selected type ki sari categories dropdown mein add karna
+    for (let i = 0; i < categories[selectedType].length; i++) {
+        let option = document.createElement("option"); //naya option banana
+        option.value = categories[selectedType][i].value; //option ki value set karna
+        option.innerText = categories[selectedType][i].text; //option ka text set karna
+        categorySelect.appendChild(option); //dropdown mein option add karna
     }
 };
 
-// create button click par transaction add karna
+//4)create button click par transaction add karna
 createBtn.onclick = function () {
-    var type = typeSelect.value; // income ya expense
-    var category = categorySelect.options[categorySelect.selectedIndex]?.text; // selected category ka naam
-    var amount = Number(amountInput.value); // amount ko number mein convert karna
-    var date = dateInput.value; // selected date
+    let type = typeSelect.value;
+    let category = categorySelect.options[categorySelect.selectedIndex]?.text; //selected category ka naam
+    let amount = Number(amountInput.value); //amount ko number mein convert karna
+    let date = dateInput.value;
 
-    // simple validation
-    // agar koi field khali ho to alert show karo
+    //agr koi b field khali ho to alert show karo
     if (type === "" || category === "" || amount === 0 || date === "") {
         alert("Please fill in all fields");
         return;
     }
 
-    // nayi transaction ka object banana
-    var transaction = {
-        id: Date.now(), // unique id
-        type: type,     // income ya expense
-        category: category, // category ka naam
-        amount: amount,     // amount
-        date: date          // date
+    //nayi transaction ka object banana
+    let transaction = {
+        id: Date.now(), //unique id
+        type: type,
+        category: category,
+        amount: amount,
+        date: date
     };
 
-    transactions.push(transaction); // transaction array mein add karna
-    saveToLocalStorage();            // localStorage mein save karna
-    updateUI();                      // screen ko update karna
-    clearInputs();                   // input fields clear karna
+    transactions.push(transaction); //transaction array mein add karna
+    saveToLocalStorage();
+    updateUI();
+    clearInputs();
 };
 
-// UI update karna
-// income, expense aur balance screen par show karna
+//5)income, expense aur balance screen par show karna
 function updateUI() {
-    incContainer.innerHTML = ""; // purani income list clear
-    expContainer.innerHTML = ""; // purani expense list clear
+    incContainer.innerHTML = "";
+    expContainer.innerHTML = "";
 
-    var totalIncome = 0;  // total income store karne ke liye
-    var totalExpense = 0; // total expense store karne ke liye
+    let totalIncome = 0;
+    let totalExpense = 0;
 
-    // sari transactions par loop chalana
-    for (var i = 0; i < transactions.length; i++) {
-        var t = transactions[i]; // current transaction
+    //sari transactions par loop chalana
+    for (let i = 0; i < transactions.length; i++) {
+        let t = transactions[i]; //current transaction
 
-        // transaction ka HTML banana
-        var itemHtml =
-            '<div class="history-item ' + (t.type === "income" ? "income-style" : "expense-style") + '">' +
-            '<div>' +
-            '<strong>' + t.category + '</strong><br>' +
-            '<small>' + t.date + '</small>' +
-            '</div>' +
-            '<span>$' + t.amount.toFixed(2) + '</span>' +
-            '<button onclick="deleteTransaction(' + t.id + ')">&times;</button>' +
-            '</div>';
+        let itemHtml = `
+            <div class="history-item ${t.type === "income" ? "income-style" : "expense-style"}">
+                <div>
+                    <strong>${t.category}</strong><br>
+                    <small>${t.date}</small>
+                </div>
+                <span>$${t.amount.toFixed(2)}</span>
+                <button onclick="deleteTransaction(${t.id})">&times;</button>
+            </div>
+            `;
 
-        // agar income ho to income list mein add karo
+
+        //agar income ho to income list mein add karo
         if (t.type === "income") {
-            totalIncome += t.amount; // income add karna
-            incContainer.innerHTML += itemHtml; // income list mein show karna
+            totalIncome = totalIncome + t.amount;
+            incContainer.innerHTML = incContainer.innerHTML + itemHtml;
         }
-        // warna expense list mein add karo
         else {
-            totalExpense += t.amount; // expense add karna
-            expContainer.innerHTML += itemHtml; // expense list mein show karna
+            totalExpense = totalExpense + t.amount;
+            expContainer.innerHTML = expContainer.innerHTML + itemHtml;
         }
     }
 
-    // total balance calculate karna
-    var totalBalance = totalIncome - totalExpense;
-    balanceDisplay.innerText = "Total Balance: $" + totalBalance.toFixed(2); // balance show
-    incomeDisplay.innerText = "$" + totalIncome.toFixed(2); // total income show
-    expenseDisplay.innerText = "$" + totalExpense.toFixed(2); // total expense show
+    //total balance calculate
+    let totalBalance = totalIncome - totalExpense;
+    balanceDisplay.innerText = "Total Balance: $" + totalBalance.toFixed(2);
+    incomeDisplay.innerText = "$" + totalIncome.toFixed(2);
+    expenseDisplay.innerText = "$" + totalExpense.toFixed(2);
 }
 
-// transaction delete karna
-// jab user delete button dabaye
+//6)transaction delete karna
 function deleteTransaction(id) {
-    var newArray = []; // nayi array banana
+    let newArray = [];
 
-    // sari transactions check karna
-    for (var i = 0; i < transactions.length; i++) {
-        // jis id wali transaction delete karni ho usko skip kar do
-        if (transactions[i].id !== id) {
+    //sab transactions ko ek ek karke check karo
+    for (let i = 0; i < transactions.length; i++) {
+
+        //agar transaction ki id delete wali id ke barabar nahi hai
+        if (transactions[i].id != id) {
+
+            // to us transaction ko newArray me add kar do
             newArray.push(transactions[i]);
         }
     }
 
-    transactions = newArray; // updated array set karna
-    saveToLocalStorage();    // localStorage update
-    updateUI();              // screen refresh
+    transactions = newArray;
+    saveToLocalStorage();
+    updateUI();
 }
 
-// inputs clear karna
-// transaction add hone ke baad fields empty karna
 function clearInputs() {
-    amountInput.value = ""; // amount clear
-    dateInput.value = "";   // date clear
-    typeSelect.value = "";  // type reset
-    categorySelect.innerHTML = '<option value="">Select category</option>'; // category reset
+    amountInput.value = "";
+    dateInput.value = "";
+    typeSelect.value = "";
+    categorySelect.innerHTML = '<option value="">Select category</option>';
 }
 
-// page load par data load aur UI update
-// taake purani saved transactions show ho jayein
 loadFromLocalStorage();
 updateUI();
