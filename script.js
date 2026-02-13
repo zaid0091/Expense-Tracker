@@ -124,19 +124,19 @@ function updateUI() {
         // transaction ka HTML banana
         var itemHtml =
             '<div class="history-item ' + (t.type === "income" ? "income-style" : "expense-style") + '">' +
-                '<div>' +
-                    '<strong>' + t.category + '</strong><br>' +
-                    '<small>' + t.date + '</small>' +
-                '</div>' +
-                '<span>$' + t.amount.toFixed(2) + '</span>' +
-                '<button onclick="deleteTransaction(' + t.id + ')">&times;</button>' +
+            '<div>' +
+            '<strong>' + t.category + '</strong><br>' +
+            '<small>' + t.date + '</small>' +
+            '</div>' +
+            '<span>$' + t.amount.toFixed(2) + '</span>' +
+            '<button onclick="deleteTransaction(' + t.id + ')">&times;</button>' +
             '</div>';
 
         // agar income ho to income list mein add karo
         if (t.type === "income") {
             totalIncome += t.amount; // income add karna
             incContainer.innerHTML += itemHtml; // income list mein show karna
-        } 
+        }
         // warna expense list mein add karo
         else {
             totalExpense += t.amount; // expense add karna
